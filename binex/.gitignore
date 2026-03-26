@@ -5,3 +5,4 @@ solve/chall
 solve/chall_patched
 solve/libc.so.6
 solve/ld-linux-x86-64.so.2
+solve/solve.py
