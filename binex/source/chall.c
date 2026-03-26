@@ -9,7 +9,6 @@
 
 struct User *users[MAX_USERS] = {NULL};
 
-// Contiguous BSS memory: 16 * 5 = 80 pointers.
 struct Note *user_notes[MAX_USERS][NOTES_PER_USER] = {NULL};
 struct NoteOps;
 
@@ -92,7 +91,6 @@ void create_note(int u_id) {
     scanf("%d", &n_idx);
     getchar();
 
-    // VULNERABILITY: OOB Index - No bounds check on n_idx
     if (user_notes[u_id][n_idx] == NULL) {
         user_notes[u_id][n_idx] = (struct Note *)malloc(sizeof(struct Note));
     }
@@ -107,7 +105,6 @@ void edit_note(int u_id) {
     scanf("%d", &n_idx);
     getchar(); 
 
-    // VULNERABILITY: OOB Index
     if (user_notes[u_id][n_idx] == NULL) {
         printf("Note does not exist.\n");
         return;
@@ -115,7 +112,6 @@ void edit_note(int u_id) {
 
     volatile size_t limit = 256; 
     printf("New content: ");
-    // VULNERABILITY: Heap Overflow (256 into 64)
     for (int i = 0; i < limit; i++) {
         if (read(0, &user_notes[u_id][n_idx]->content[i], 1) <= 0) break;
         if (user_notes[u_id][n_idx]->content[i] == '\n') { 
@@ -131,7 +127,6 @@ void view_one_note(int u_id) {
     scanf("%d", &n_idx);
     getchar();
 
-    // VULNERABILITY: OOB Index
     if (user_notes[u_id][n_idx]) {
         users[u_id]->vtable->view_notes(user_notes[u_id][n_idx]);
     }
@@ -142,7 +137,6 @@ void view_all_notes(int u_id) {
     for (int n_idx = 0; n_idx < NOTES_PER_USER; n_idx++) {
         if (user_notes[u_id][n_idx]) {
             printf("[%d] ", n_idx);
-            // COOP Dispatcher loop
             users[u_id]->vtable->view_notes(user_notes[u_id][n_idx]);
         }
     }

@@ -1,5 +1,5 @@
 CC      := gcc
-CFLAGS  := -O2 -D_FORTIFY_SOURCE=2 -fPIE -fstack-protector-all
+CFLAGS  := -O2 -D_FORTIFY_SOURCE=2 -fPIE -fstack-protector-all -fcf-protection=full
 LDFLAGS := -pie -Wl,-z,relro,-z,now
 TARGET  := chall
 SRC     := chall.c
