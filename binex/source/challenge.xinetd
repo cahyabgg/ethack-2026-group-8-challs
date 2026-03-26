@@ -4,14 +4,9 @@ service challenge
     socket_type = stream
     protocol = tcp
     wait = no
-    user = root
+    user = challenge
     type = UNLISTED
     port = 1337
     bind = 0.0.0.0
-    server = /usr/bin/chroot
-    server_args = --userspec=1001:1001 /home/challenge ./chall
-    banner_fail = /etc/banner_fail
-    per_source = 10
-    rlimit_cpu = 20
-    rlimit_as = 128M
+    server = /home/challenge/chall
 }
