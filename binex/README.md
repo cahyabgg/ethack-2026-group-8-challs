@@ -10,9 +10,11 @@ So I got a request to create a really secure notes tracking app, to make it secu
 * **NX**: Shellcode is non-executable
 * **PIE**: Base addresses are randomized
 * **O2**: Prune all unused instructions to keep binary size small
-* **FORTIFY**: protect againts common unsafe functions (e.g., printf, strcpy, read, memcpy)
+* **FORTIFY**: protect againts unsafe functions in runtime (e.g., printf, strcpy, read, memcpy)
 * **SHSTK**: protect against "Backward-Edge" control-flow hijacking (like ROP)
 * **IBT**: protect against "Forward-Edge" control-flow hijacking (like JOP)
+* **fstack-clash-protection**: make cpu check stack every page interval
+* **fno-delete-null-pointer-checks & fno-strict-overflow**: protect against null and overflow attack
 * **Glibc 2.43**: No legacy malloc hooks available
 
 ---
